@@ -24,6 +24,9 @@ class listener_base extends \phpbb_test_case
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\language\language */
+	protected $lang;
+
 	/** @var string */
 	protected $root_path;
 
@@ -37,16 +40,19 @@ class listener_base extends \phpbb_test_case
 	{
 		parent::setUp();
 
-		global $phpbb_root_path, $phpEx;
+		global $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		// Load/Mock classes required by the event listener class
 		$this->config = new \phpbb\config\config(array('default_dateformat' => 'D M d, Y H:i:s A'));
 		$this->log = $this->getMockBuilder('\phpbb\log\log')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$this->lang = new \phpbb\language\language($lang_loader);
+		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 	}
 
 	/**
@@ -54,15 +60,18 @@ class listener_base extends \phpbb_test_case
 	 */
 	protected function set_listener()
 	{
-		$this->listener = $this->getMock('\phpbb\teamsecurity\event\listener',
-			array('in_watch_group', 'send_message'),
-			array(
+		$this->listener = $this->getMockBuilder('\phpbb\teamsecurity\event\listener')
+			->setMethods(array(
+				'in_watch_group',
+				'send_message'
+			))
+			->setConstructorArgs(array(
 				$this->config,
 				$this->log,
 				$this->user,
 				$this->root_path,
 				$this->php_ext
-			)
-		);
+			))
+			->getMock();
 	}
 }

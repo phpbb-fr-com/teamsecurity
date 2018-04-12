@@ -44,19 +44,16 @@ class teamsecurity_module
 		$this->template = $template;
 		$this->user = $user;
 
-		$this->user->add_lang('acp/common');
 		$this->user->add_lang_ext('phpbb/teamsecurity', 'acp_teamsecurity');
 	}
 
 	/**
 	 * Main ACP module
 	 *
-	 * @param int $id
-	 * @param string $mode
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
-	public function main($id, $mode)
+	public function main()
 	{
 		$this->tpl_name = 'acp_teamsecurity';
 		$this->page_title = $this->user->lang('ACP_TEAM_SECURITY_SETTINGS');
@@ -118,7 +115,7 @@ class teamsecurity_module
 	 * Get group options for multi-select box
 	 *
 	 * @param array $selected_id Currently selected group identifiers
-	 * @return null
+	 * @return void
 	 * @access protected
 	 */
 	protected function get_group_options($selected_id)
