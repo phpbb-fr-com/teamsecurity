@@ -1,17 +1,18 @@
 <?php
 /**
-*
-* Team Security Measures extension for the phpBB Forum Software package.
-* French translation by Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Team Security Measures extension for the phpBB Forum Software package.
+ * French translation by Galixte (http://www.galixte.com)
+ * French translation revised by phpBB-fr.com Translation Team
+ *
+ * @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -52,5 +53,5 @@ $lang = array_merge($lang, array(
 	'LOG_DELETE_MARKED'				=> 'Journaux par ID : %1$s',
 
 	// EMAIL
-	'ACP_CONTACT_ADMIN'				=> 'L’administrateur ou le webmaster du forum',
+	'ACP_CONTACT_ADMIN'				=> 'L’administrateur du forum ou du site',
 ));
