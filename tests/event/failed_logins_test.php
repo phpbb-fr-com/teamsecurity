@@ -21,9 +21,9 @@ class failed_logins_test extends listener_base
 	{
 		return array(
 			array(true, true, array('user_row' => array('user_id' => 2))),
-			array(false, true, array()),
-			array(true, false, array()),
-			array(false, false, array()),
+			array(false, true, array('user_row' => array('user_id' => 0))),
+			array(true, false, array('user_row' => array('user_id' => 0))),
+			array(false, false, array('user_row' => array('user_id' => 0))),
 		);
 	}
 
@@ -40,21 +40,20 @@ class failed_logins_test extends listener_base
 
 		$this->set_listener();
 
-		$this->listener->expects($this->atMost(1))
+		$this->listener->expects(self::atMost(1))
 			->method('in_watch_group')
 			->willReturn($in_watch_group);
 
 		// Check log->add is called once with expected data if enabled and in_watch_group are true,
 		// otherwise check that it is never called.
-		$this->log->expects(($enabled && $in_watch_group) ? $this->once() : $this->never())
+		$this->log->expects(($enabled && $in_watch_group) ? self::once() : self::never())
 			->method('add')
 			->with('user', $result['user_row']['user_id'], $this->user->ip, 'LOG_TEAM_AUTH_FAIL', time(), array('reportee_id' => $result['user_row']['user_id']));
 
-		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher = new \phpbb\event\dispatcher();
 		$dispatcher->addListener('core.login_box_failed', array($this->listener, 'log_failed_login_attempts'));
 
 		$event_data = array('result');
-		$event = new \phpbb\event\data(compact($event_data));
-		$dispatcher->dispatch('core.login_box_failed', $event);
+		$dispatcher->trigger_event('core.login_box_failed', compact($event_data));
 	}
 }

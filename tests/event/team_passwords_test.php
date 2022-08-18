@@ -51,18 +51,17 @@ class team_passwords_test extends listener_base
 
 		$this->set_listener();
 
-		$this->listener->expects($this->atMost(1))
+		$this->listener->expects(self::atMost(1))
 			->method('in_watch_group')
 			->willReturn($in_watch_group);
 
-		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher = new \phpbb\event\dispatcher();
 		$dispatcher->addListener($listener, array($this->listener, 'set_team_password_configs'));
 
 		$event_data = array('mode', 'user_row');
-		$event = new \phpbb\event\data(compact($event_data));
-		$dispatcher->dispatch($listener, $event);
+		$dispatcher->trigger_event($listener, compact($event_data));
 
-		$this->assertEquals($expected, $this->config['pass_complex']);
-		$this->assertEquals($sec_min_pass_chars, $this->config['min_pass_chars']);
+		self::assertEquals($expected, $this->config['pass_complex']);
+		self::assertEquals($sec_min_pass_chars, $this->config['min_pass_chars']);
 	}
 }

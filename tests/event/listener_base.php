@@ -12,13 +12,13 @@ namespace phpbb\teamsecurity\tests\event;
 
 class listener_base extends \phpbb_test_case
 {
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\teamsecurity\event\listener */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\teamsecurity\event\listener */
 	protected $listener;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\log\log */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\log\log */
 	protected $log;
 
 	/** @var \phpbb\user */
@@ -36,7 +36,7 @@ class listener_base extends \phpbb_test_case
 	/**
 	* Setup test environment
 	*/
-	public function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -50,6 +50,9 @@ class listener_base extends \phpbb_test_case
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$this->lang = new \phpbb\language\language($lang_loader);
 		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
+		$this->user->data['user_id'] = 100;
+		$this->user->data['username'] = '';
+		$this->user->data['user_email'] = '';
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();

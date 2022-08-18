@@ -155,21 +155,20 @@ class email_change_notification_test extends listener_base
 
 		$this->set_listener();
 
-		$this->listener->expects($this->atMost(1))
+		$this->listener->expects(self::atMost(1))
 			->method('in_watch_group')
 			->willReturn($in_watch_group);
 
 		// Check send_message once if conditions are true,
 		// otherwise check that it is never called.
-		$this->listener->expects(($enabled && $this->user->data['user_email'] != $data['email'] && $in_watch_group) ? $this->once() : $this->never())
+		$this->listener->expects(($enabled && $this->user->data['user_email'] != $data['email'] && $in_watch_group) ? self::once() : self::never())
 			->method('send_message')
 			->with($expected);
 
-		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher = new \phpbb\event\dispatcher();
 		$dispatcher->addListener($listener, array($this->listener, 'email_change_notification'));
 
 		$event_data = array('user_row', 'data');
-		$event = new \phpbb\event\data(compact($event_data));
-		$dispatcher->dispatch($listener, $event);
+		$dispatcher->trigger_event($listener, compact($event_data));
 	}
 }
