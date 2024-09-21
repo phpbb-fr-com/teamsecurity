@@ -46,7 +46,7 @@ $lang = array_merge($lang, array(
 
 	// ACP Logs
 	'LOG_TEAM_AUTH_FAIL'			=> '<strong>Échec d’une tentative de connexion d’un membre de l’équipe</strong>',
-	'LOG_TEAM_SEC_UPDATED'			=> '<strong>Les paramètres de l’extension « Team Security » ont été mis à jour</strong>',
+	'LOG_TEAM_SEC_UPDATED'			=> '<strong>Les paramètres de l’extension « Sécurité de l’équipe » ont été mis à jour</strong>',
 
 	// ACP Log notifications
 	'LOG_DELETE_ALL'				=> 'Tous les journaux',
@@ -54,4 +54,7 @@ $lang = array_merge($lang, array(
 
 	// EMAIL
 	'ACP_CONTACT_ADMIN'				=> 'L’administrateur du forum ou du site',
+
+	// EXT
+	'TEAM_SECURITY_DISABLE_MESSAGE'	=> 'Veuillez supprimer le fichier « ext.php » du système de fichier, purger le cache du forum et essayer à nouveau.',
 ));
